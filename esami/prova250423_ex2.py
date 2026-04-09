@@ -29,12 +29,13 @@ def main():
     
     std1=np.std(hist1)
     std2=np.std(hist2)
+         
+    plt.figure();plt.bar(range(256),hist1);plt.axis((0,255,0,1.1*np.max(hist1)))
+    plt.figure();plt.bar(range(256),hist2);plt.axis((0,255,0,1.1*np.max(hist2)))
+  
     impronte=[]
     impronte.append(std1)   
     impronte.append(std2)
-       
-    plt.figure();plt.bar(range(256),hist1);plt.axis((0,255,0,1.1*np.max(hist1)))
-    plt.figure();plt.bar(range(256),hist2);plt.axis((0,255,0,1.1*np.max(hist2)))
     
     for i in range(2):
         if impronte[i]<250:
