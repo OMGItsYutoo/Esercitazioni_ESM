@@ -37,7 +37,7 @@ def main():
     plt.subplot(1,3,2)
     plt.imshow(D2,cmap='gray',clim=[0,1])
     plt.subplot(1,3,3)
-    plt.imshow(F,cmap='gray',clim=[0,1])
+    plt.imshow(F,cmap='gray',clim=[0,1],extent=(-0.5,0.5,-0.5,0.5))
 
     plt.figure()
     plt.imshow(np.log(1+np.abs(Y)), cmap='gray', extent=(-0.5,+0.5,+0.5,-0.5))

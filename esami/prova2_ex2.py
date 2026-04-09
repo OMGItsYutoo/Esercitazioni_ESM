@@ -12,7 +12,7 @@ def main():
     n=np.fft.fftshift(np.fft.fftfreq(x.shape[1]))
     l,k=np.meshgrid(n,m)
     
-    mu=0.25;B=0.15
+    mu=0.25;nu=0;B=0.15
     D=np.abs(np.sqrt(l**2+k**2)-mu)
     H=D<(B/2)
     

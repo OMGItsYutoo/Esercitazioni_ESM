@@ -3,13 +3,12 @@ import matplotlib.pyplot as plt
 import skimage.io as io
 import scipy.ndimage as ndi
 from sklearn.cluster import k_means
-from skimage.exposure import histogram
 
 def thresholding1(x):
     d=np.reshape(x,(-1,1))    
     centroids,idx,sum_var=k_means(d,2)
-    mask=x>np.mean(centroids)
-    return mask
+    y=np.reshape(idx,x.shape)
+    return y
 
 def thresholding2(x):
     hist, bin_edges = np.histogram(x, bins=256, range=(0, 255))    

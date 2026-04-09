@@ -65,7 +65,6 @@ def main():
     
     x=np.float64(io.imread("images/barbara.png"))
     
-    print(x.shape)
     h=np.zeros((5, 5))
     h[0, 0] = 1
     h[0, 4] = 1

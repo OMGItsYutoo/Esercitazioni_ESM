@@ -6,12 +6,6 @@ from skimage.color import rgb2gray
 from skimage.exposure import histogram
 
 def block_fun(window):
-    # window è un array 1D di 9 elementi (per un kernel 3x3)
-    # L'ordine di scipy è:
-    # [0 1 2]
-    # [3 4 5]
-    # [6 7 8]  -> il centro è l'indice 4
-    
     xc = window[4]
     
     # Mappatura secondo la figura dell'esame:
