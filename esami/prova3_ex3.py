@@ -44,8 +44,8 @@ def main():
     y1=elab(z1,3)
     y2=elab(z2,3)
     
-    hist1,_=np.histogram(y1, bins=256, range=(0, 255))
-    hist2,_=np.histogram(y2, bins=256, range=(0, 255))
+    hist1,_=np.histogram(y1, bins=256, range=(0, 256))
+    hist2,_=np.histogram(y2, bins=256, range=(0, 256))
     
     std1=np.std(hist1)
     std2=np.std(hist2)
@@ -54,8 +54,8 @@ def main():
     print(f"I2 - Std Istogramma: {std2:.2f} -> {'VERA (1)' if std2 > 495 else 'FALSA (0)'}")
 
     plt.figure()
-    plt.subplot(1,2,1); plt.bar(range(256), hist1); plt.title("Istogramma I1")
-    plt.subplot(1,2,2); plt.bar(range(256), hist2); plt.title("Istogramma I2")
+    plt.subplot(1,2,1); plt.bar(range(256), hist1); plt.title("Istogramma I1");plt.axis((0,255,0,1.1*np.max(hist1)))
+    plt.subplot(1,2,2); plt.bar(range(256), hist2); plt.title("Istogramma I2");plt.axis((0,255,0,1.1*np.max(hist2)))
     
     plt.figure()
     plt.subplot(1,2,1); plt.imshow(y1,clim=[0,255],cmap='gray')
