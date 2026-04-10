@@ -6,17 +6,8 @@ import skimage.io as io
 def respfreq(h):
     #allineo la matrice al centro della figura N*N su cui effettuo poi la trasformata
     #non effettuo la trasformata sul blocchetto 5*5 perché altrimenti dovrei effettuare una interpolazione cardinale in fase di visualizzazione
-    N=512
-    h_full=np.zeros((N, N)) 
-    kh,kw=h.shape
-    
-    h_full[:kh,:kw]=h
-    
-    h_full=np.roll(h_full, -(kh//2), axis=0)
-    h_full=np.roll(h_full, -(kw//2), axis=1)
-
     #nel caso mi interessasse solo della visualizzazione della fft del filtro potrei anche fare  H = np.fft.fft2(h_full,(N,N))
-    H=np.fft.fft2(h_full)
+    H=np.fft.fft2(h,(512,512))
     
     plt.figure()
     plt.subplot(1,2,1)
@@ -25,8 +16,8 @@ def respfreq(h):
     plt.imshow(np.log(1+np.abs(H)),cmap='gray',extent=(-0.5,+0.5,-0.5,+0.5))
 
     ax=plt.figure().add_subplot(projection='3d')
-    m=np.fft.fftshift(np.fft.fftfreq(512))
-    n=np.fft.fftshift(np.fft.fftfreq(512))
+    m=np.fft.fftshift(np.fft.fftfreq(H.shape[0]))
+    n=np.fft.fftshift(np.fft.fftfreq(H.shape[0]))
     l,k=np.meshgrid(n,m)
     ax.plot_surface(l,k,np.log(1+np.abs(H)),linewidth=0,cmap='jet')
     

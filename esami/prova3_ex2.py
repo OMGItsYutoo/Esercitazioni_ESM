@@ -20,7 +20,7 @@ def main():
     
     mask_at=ndi.gaussian_filter(S,1)>0.25
     L=np.array([[1,1,1],[1,-8,1],[1,1,1]])    
-    lap_at= ndi.correlate(mask_at,L)**2
+    lap_at=ndi.correlate(mask_at,L)
     
     mask=fast_var(S,3)
     mask=mask>0.02

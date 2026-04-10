@@ -26,6 +26,15 @@ def filtra(x):
     mu=0.1;nu=0.25
     H=(np.abs(k)<mu) & (np.abs(l)<=nu)
     
+    plt.figure()
+    plt.imshow(H,cmap='gray',clim=[0,1])
+    
+    ax=plt.figure().add_subplot(projection='3d')
+    m=np.fft.fftshift(np.fft.fftfreq(x.shape[0]))
+    n=np.fft.fftshift(np.fft.fftfreq(x.shape[1]))
+    l,k=np.meshgrid(n,m)
+    ax.plot_surface(l,k,H,linewidth=0,cmap='jet')
+    
     x_hsv=rgb2hsv(x)
     h=x_hsv[:,:,0]
     s=x_hsv[:,:,1]
