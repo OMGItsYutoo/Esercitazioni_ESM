@@ -1,0 +1,32 @@
+Discorso 12/06/26 - Presentazione MVPNet
+
+La complessa architettura di Depth Pro lo classifica come un vero e proprio colosso tra i foundation models e, infatti, i suoi risultati sono formidabili in gran parte delle situazioni realistiche.
+
+Cosa succede, però, quando questo modello si scontra con una situazione complicata, come la presenza di superfici speculari?
+
+[SLIDE]
+Come evidenziato dalle immagini, invece di rilevare la barriera fisica del vetro, la rete cade in un inganno ottico e proietta la profondità della stanza riflessa, creando di fatto un 'buco' geometrico nel muro.
+
+[SLIDE]
+A primo impatto, per noi esseri umani, questo può sembrare un problema di poco conto, ma pensate a cosa potrebbe accadere a un delivery bot a guida autonoma che interpreta quel riflesso come uno spazio di manovra aperto e percorribile.
+
+[SLIDE]
+Il nostro approccio, piuttosto che effettuare un costoso fine-tuning sull'intero modello Depth Pro, col rischio di comprometterne le ottime performance generali è stato quello del Residual Learning. L'idea alla base è quella di generare una vera e propria 'toppa' matematica che vada a correggere esclusivamente l'area problematica dello specchio, lasciando intatto il resto.
+Per tradurre questa intuizione in un framework operativo, abbiamo integrato due soluzioni presenti nello Stato dell'Arte: MirrorNet per la localizzazione dello specchio, e l'architettura MA-Net come cuore del nostro modulo di raffinamento.
+
+[SLIDE]
+Per ottenere questa maschera iniziale, ci affidiamo a MirrorNet, la cui architettura parte da una rete di estrazione delle feature a diverse scale di risoluzione. Ma il vero cuore del sistema risiede nei livelli più profondi, dove intervengono i moduli CCFE (Contextual Contrasted Feature Extraction). Qui, attraverso convoluzioni dilate, la rete allarga il suo campo visivo per inquadrare l'intero contesto della stanza.
+Infine, grazie al meccanismo di Deep Supervision, la rete viene corretta su tutte le sue mappe intermedie confrontandole con la Ground Truth.
+
+[SLIDE]
+Una volta ottenuta la maschera, la utilizziamo in ingresso al nostro modulo di raffinamento, per cui abbiamo adattato l'architettura MA-Net. Abbiamo mantenuto una struttura a U, la classica U-Net, le cui skip connections permettono di preservare un'altissima risoluzione spaziale, che risulta essere un requisito fondamentale per l'allineamento della mappa del residuo ai bordi fisici dello specchio anche in caso di maschere non perfette.
+
+La vera forza di questa architettura, però, risiede nei suoi meccanismi di Attenzione, che si dividono in due moduli chiave.
+Il primo è il PAB (Position-wise Attention Block), il cui suo compito è modellare le dipendenze spaziali tra le feature maps per catturare il contesto globale. Di fatto, è il modulo che insegna alla rete a guardare oltre lo specchio, analizzando la geometria del contesto circostante. Il secondo è l'MFAB (Multi-scale Fusion Attention Block) il quale cattura le dipendenze tra i canali fondendo le informazioni semantiche ad alto e basso livello. Insieme, questi due moduli lavorano in sinergia per forzare la rete a ignorare i pixel ingannevoli del riflesso, utilizzando invece il contesto reale per interpolare la superficie piatta corretta.
+
+Note:
+I Foundation Models sono modelli neurali giganteschi (miliardi di parametri) addestrati su quantità di dati inimmaginabili, spesso raccolti da tutta internet, il cui scopo è acquisire una comprensione generale e profonda del mondo.
+
+Per questo motivo, presentano Zero-Shot Capabilities, ovvero sono in grado di risolvere compiti per cui non sono mai stati esplicitamente e specificamente istruiti, funzionando bene out-of-the-box (senza alcuna configurazione particolare).
+
+L'oblio catastrofico (noto in inglese come catastrophic forgetting o catastrophic interference) è il fenomeno per cui un'intelligenza artificiale o una rete neurale "dimentica" drasticamente le informazioni o le abilità apprese in precedenza, subito dopo essere stata addestrata su nuovi compiti o nuovi dati.
